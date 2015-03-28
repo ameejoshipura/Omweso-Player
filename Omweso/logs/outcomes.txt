@@ -8,3 +8,10 @@
 8,260461226,random,1,random,16,game00008.log,
 9,260461226,Human,1,Human,20,game00009.log,
 10,260461226,Human,0,260461226,0,game00010.log,ILLEGAL MOVE: Player 0 initializes with: [0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+13,260461226,Human,0,260461226,38,game00013.log,
+15,260461226,Human,0,260461226,55,game00015.log,
+16,260461226,random,0,260461226,43,game00016.log,
+17,random,260461226,0,random,51,game00017.log,
+18,260461226,random,1,random,40,game00018.log,
+19,260461226,random,0,260461226,16,game00019.log,
+20,260461226,random,0,260461226,30,game00020.log,

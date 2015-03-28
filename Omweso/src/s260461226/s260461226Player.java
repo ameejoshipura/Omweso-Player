@@ -4,7 +4,6 @@ import boardgame.Board;
 import boardgame.BoardState;
 import boardgame.Move;
 import boardgame.Player;
-
 import omweso.CCBoardState;
 import omweso.CCBoard;
 import omweso.CCMove;
@@ -86,7 +85,35 @@ public class s260461226Player extends Player {
         }else{
             // Play a normal turn. Choose a random pit to play.
             ArrayList<CCMove> moves = board_state.getLegalMoves();
-            return moves.get(rand.nextInt(moves.size()));
+            CCMove bestCapMove = null;
+            int captureMax = 0;
+            int temp = 0 ;
+            int max = 0;
+            CCMove maxMove = null;
+            for(CCMove m: moves){
+            	//if the move results in a capture, return that move
+            	//if a move results in a capture, return the move with max capture
+            	if(MyTools.checkCapture(m, my_pits, op_pits, board_state,this.playerID))
+            	{ 
+            		temp = MyTools.calcCapture(m, my_pits, op_pits, board_state, this.playerID);
+            		if(temp>captureMax){
+            			bestCapMove = m;
+            			captureMax = temp;
+            		}
+            	} 
+            	//if no captures are possible, then return the move with most seeds
+            	else{
+            		if(my_pits[m.getPit()]>max){
+            			max = my_pits[m.getPit()];
+            			maxMove = m;
+            		}
+            	}
+            }
+            if(bestCapMove!=null){
+            	return bestCapMove;
+            }
+            return maxMove;
+            //return moves.get(rand.nextInt(moves.size()));
         }
     }
 }
