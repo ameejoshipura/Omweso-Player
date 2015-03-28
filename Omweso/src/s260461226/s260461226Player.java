@@ -21,7 +21,7 @@ public class s260461226Player extends Player {
     /** You must provide a default public constructor like this,
      * which does nothing but call the base-class constructor with
      * your student number. */
-    public s260461226Player() { super("XXXXXXXXX"); }
+    public s260461226Player() { super("260461226"); }
     public s260461226Player(String s) { super(s); }
 
     /** Leave this method unchanged. */
@@ -70,17 +70,15 @@ public class s260461226Player extends Player {
 
             if(board_state.playFirst()){
                 // If we're going to play first in this game, choose one random way of setting up.
-                // Throw each seed in a random pit that we control.
-                for(int i = 0; i < num_seeds; i++){
-                    int pit = rand.nextInt(2 * CCBoardState.SIZE);
-                    initial_pits[pit]++;
+                // put 4 in each pit in the second row
+                for(int i=CCBoardState.SIZE;i<2*CCBoardState.SIZE;i++ ){
+                	initial_pits[i]=4;
                 }
             }else{
                 // If we're going to play second this game, choose another random way of setting up.
-                // Throw each seed in a random pit that we control, but in the row closest to us.
-                for(int i = 0; i < num_seeds; i++){
-                    int pit = rand.nextInt(CCBoardState.SIZE);
-                    initial_pits[pit]++;
+                // put 4 in each pit in the second row
+            	for(int i=CCBoardState.SIZE;i<2*CCBoardState.SIZE;i++ ){
+                	initial_pits[i]=4;
                 }
             }
 

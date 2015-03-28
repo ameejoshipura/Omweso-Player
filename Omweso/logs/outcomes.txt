@@ -1,2 +1,10 @@
 1,random,random,0,random,17,game00001.log,
 2,Human,random,0,Human,11,game00002.log,
+3,Human,random,0,Human,12,game00003.log,
+4,XXXXXXXXX,random,1,random,38,game00004.log,
+5,260461226,Human,1,Human,16,game00005.log,
+6,260461226,random,1,random,29,game00006.log,
+7,Human,260461226,GAMEOVER USER CANCEL UNDECIDED,NOBODY,1,game00007.log,USER CANCEL
+8,260461226,random,1,random,16,game00008.log,
+9,260461226,Human,1,Human,20,game00009.log,
+10,260461226,Human,0,260461226,0,game00010.log,ILLEGAL MOVE: Player 0 initializes with: [0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4]
