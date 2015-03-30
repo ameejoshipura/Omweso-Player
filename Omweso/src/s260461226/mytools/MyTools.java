@@ -32,7 +32,7 @@ public class MyTools {
     	}
     	
     	//if pit was empty, capture not allowed
-    	if(my_pits[dest]<=1){
+    	else if(my_pits[dest]<=1){
     		return false;
     	}
     	/*
@@ -46,7 +46,7 @@ public class MyTools {
     	 * 
     	 * then opp pit -> 8+(15-x), and 7-(15-x) 
     	 */
-    	if(op_pits[8+(15-dest)]==0 || op_pits[7-(15-dest)]==0){
+    	else if(op_pits[8+(15-dest)]==0 || op_pits[7-(15-dest)]==0){
     		return false;
     	}
     	return true;
@@ -109,9 +109,12 @@ public class MyTools {
     		temp = origin;
     		origin = dest;
     		dest = board_state.getNextPit(temp, Direction.CCW);
+    		if(my_pits[dest]==0){
+    			sumSeeds--;
+    		}
     		my_pits[dest]++;
     	}
-    	sumSeeds = seeds;
+    	//sumSeeds += seeds;
     	//if capture is possible at destination, capture the seeds and
     	//count again
     	if(checkCapture(m,my_pits,op_pits,board_state,playerID)){
@@ -139,9 +142,12 @@ public class MyTools {
     		temp = origin;
     		origin = dest;
     		dest = board_state.getNextPit(temp, Direction.CCW);
+    		if(my_pits[dest]==0){
+    			sumSeeds--;
+    		}
     		my_pits[dest]++;
     	}
-    	sumSeeds = seeds;
+    	//sumSeeds += seeds;
     	//first check if capture is possible
     	CCMove move = new CCMove(m);
     	if(checkCapture(move,my_pits,op_pits,board_state,playerID)){
@@ -155,9 +161,25 @@ public class MyTools {
     }
     
     /*
+     * For a move calculate number of single pit moves
+     */
+    /*
      * heuristic search
      * +for #captures
      * -for #pits with seeds=1
      * +for #pits with seeds>1
+     * +for succsessive moves
      */
+    public static int getHeuristic(CCMove m, int[] my_pits, int[] op_pits, CCBoardState board_state, int playerID){
+    	int h = my_pits[m.getPit()];
+    	//count captures
+    	if(checkCapture(m,my_pits,op_pits,board_state,playerID)){
+    		h += calcCapture(m,my_pits,op_pits,board_state,playerID);
+    	}
+    	//count successive moves - this includes pits with one seed
+    	if(checkSucc(m,my_pits,op_pits,board_state,playerID)){
+    		h += countSucc(m,my_pits,op_pits,board_state,playerID);
+    	}
+    	return h;
+    }
 }

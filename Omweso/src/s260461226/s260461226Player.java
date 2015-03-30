@@ -94,10 +94,12 @@ public class s260461226Player extends Player {
             int temp = 0 ;
             int max = 0;
             CCMove maxMove = null;
+            maxMove = moves.get(0);
+            max = MyTools.getHeuristic(maxMove, my_pits, op_pits, cloneState, this.playerID);
             for(CCMove m: moves){
             	//if the move results in a capture, return that move
             	//if a move results in a capture, return the move with max capture
-            	if(MyTools.checkCapture(m, my_pits, op_pits, cloneState,this.playerID))
+            	/*if(MyTools.checkCapture(m, my_pits, op_pits, cloneState,this.playerID))
             	{ 
             		temp = MyTools.calcCapture(m, my_pits, op_pits, cloneState, this.playerID);
             		if(temp>captureMax){
@@ -120,11 +122,17 @@ public class s260461226Player extends Player {
             			max = my_pits[m.getPit()];
             			maxMove = m;
             		}
+            	}*/
+            	//heuristic
+            	temp = MyTools.getHeuristic(m, my_pits, op_pits, cloneState, this.playerID);
+            	if(temp>max){
+            		max = temp;
+            		maxMove = m;
             	}
             }
-            if(bestCapMove!=null){
+            /*if(bestCapMove!=null){
             	return bestCapMove;
-            }
+            }*/
             return maxMove;
             //return moves.get(rand.nextInt(moves.size()));
         }
