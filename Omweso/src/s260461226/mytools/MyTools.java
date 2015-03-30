@@ -159,10 +159,15 @@ public class MyTools {
     	}
     	return sumSeeds;
     }
-    
     /*
-     * For a move calculate number of single pit moves
+     * avoid capture by opponent
+     * for every x between 8 and 15 in opp pit
+     * check if capture is possible in my pit
+     * that reduces the heuristic
+     * so reduce the amount of capture -> move the
+     * seeds and distribute them
      */
+    
     /*
      * heuristic search
      * +for #captures
@@ -171,7 +176,8 @@ public class MyTools {
      * +for succsessive moves
      */
     public static int getHeuristic(CCMove m, int[] my_pits, int[] op_pits, CCBoardState board_state, int playerID){
-    	int h = my_pits[m.getPit()];
+    	int origin = m.getPit();
+    	int h = my_pits[origin];
     	//count captures
     	if(checkCapture(m,my_pits,op_pits,board_state,playerID)){
     		h += calcCapture(m,my_pits,op_pits,board_state,playerID);
@@ -180,6 +186,8 @@ public class MyTools {
     	if(checkSucc(m,my_pits,op_pits,board_state,playerID)){
     		h += countSucc(m,my_pits,op_pits,board_state,playerID);
     	}
+    	//check for capture by opponent
+    	h += my_pits[15-origin];
     	return h;
     }
 }
