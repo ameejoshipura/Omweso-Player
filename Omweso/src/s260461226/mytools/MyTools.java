@@ -10,7 +10,9 @@ public class MyTools {
     public static double getSomething(){
         return Math.random();
     }
-    
+    /*
+     * check if a capture is possible
+     */
     public static boolean checkCapture(CCMove m, int[] my_pits, int[] op_pits, CCBoardState board_state, int playerID){
     	//figure out the last pit
     	int seeds = my_pits[m.getPit()];
@@ -44,6 +46,9 @@ public class MyTools {
     	return true;
     }
     
+    /*
+     * get max capture
+     */
     public static int calcCapture(CCMove m, int[] my_pits, int[] op_pits, CCBoardState board_state, int playerID){
     	//figure out the last pit
     	int seeds = my_pits[m.getPit()];
@@ -56,7 +61,74 @@ public class MyTools {
     		dest = board_state.getNextPit(temp, Direction.CCW);
     	}
     	//return capture
-    	
     	return op_pits[8+(15-dest)]+op_pits[7-(15-dest)];
+    }
+    
+    /*
+     * check for successive moves
+     */
+    public static boolean checkSucc(CCMove m, int[] my_pits, int[] op_pits, CCBoardState board_state, int playerID){
+    	int origin = m.getPit();
+    	int seeds = my_pits[m.getPit()];
+    	int dest=0;
+    	int temp=0;
+    	for(int i=0; i<seeds; i++){
+    		temp = origin;
+    		origin = dest;
+    		dest = board_state.getNextPit(temp, Direction.CCW);
+    	}
+    	if(my_pits[dest]>1){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    /*
+     * number of successive moves
+     */
+    public static int countSucc(CCMove m, int[] my_pits, int[] op_pits, CCBoardState board_state, int playerID){
+    	int sumSeeds = 0;
+    	//int maxMoves = 0;
+    	int origin = m.getPit();
+    	int dest = 0;
+    	int temp = 0;
+    	int seeds = my_pits[m.getPit()];
+    	for(int i=0; i<seeds; i++){
+    		temp = origin;
+    		origin = dest;
+    		dest = board_state.getNextPit(temp, Direction.CCW);
+    	}
+    	sumSeeds = seeds;
+    	if(my_pits[dest]>1){
+    		sumSeeds += countHelp(dest, my_pits, op_pits, board_state, playerID);
+    	}
+    	return sumSeeds;
+    }
+    
+    /*
+     * count helper
+     */
+    public static int countHelp(int m, int[] my_pits, int[] op_pits, CCBoardState board_state, int playerID){
+    	int sumSeeds = 0;
+    	//int maxMoves = 0;
+    	int origin = m;
+    	int dest = 0;
+    	int temp = 0;
+    	int seeds = my_pits[m];
+    	for(int i=0; i<seeds; i++){
+    		temp = origin;
+    		origin = dest;
+    		dest = board_state.getNextPit(temp, Direction.CCW);
+    	}
+    	//first check if capture is possible
+    	CCMove move = new CCMove(m);
+    	if(checkCapture(move,my_pits,op_pits,board_state,playerID)){
+    		sumSeeds = calcCapture(move,my_pits,op_pits,board_state,playerID);
+    	}
+    	sumSeeds = seeds;
+    	if(my_pits[dest]>1){
+    		sumSeeds += countHelp(dest, my_pits, op_pits, board_state, playerID);
+    	}
+    	return sumSeeds;
     }
 }

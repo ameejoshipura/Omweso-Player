@@ -102,7 +102,16 @@ public class s260461226Player extends Player {
             		}
             	} 
             	//if no captures are possible, then return the move with most seeds
+            	//return the move with max consecutive sowings possible
             	else{
+            	//check if multiple sowings are possible
+            		if(MyTools.checkSucc(m, my_pits, op_pits, board_state, this.playerID)){
+            			temp = MyTools.calcCapture(m, my_pits, op_pits, board_state, this.playerID);
+            			if(temp > max){
+            				max = temp;
+            				maxMove = m;
+            			}
+            		}
             		if(my_pits[m.getPit()]>max){
             			max = my_pits[m.getPit()];
             			maxMove = m;
