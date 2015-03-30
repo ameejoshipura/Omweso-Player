@@ -37,3 +37,6 @@
 40,260461226,random,1,random,11,game00040.log,
 41,260461226,random,1,random,16,game00041.log,
 42,260461226,random,1,random,13,game00042.log,
+43,260461226,random,1,random,21,game00043.log,
+44,260461226,random,0,260461226,13,game00044.log,
+45,random,260461226,1,260461226,56,game00045.log,

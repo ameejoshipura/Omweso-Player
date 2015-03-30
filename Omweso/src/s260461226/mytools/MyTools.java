@@ -110,11 +110,11 @@ public class MyTools {
     		origin = dest;
     		dest = board_state.getNextPit(temp, Direction.CCW);
     		if(my_pits[dest]==0){
-    			sumSeeds--;
+    			//sumSeeds--;
     		}
     		my_pits[dest]++;
     	}
-    	//sumSeeds += seeds;
+    	sumSeeds += seeds;
     	//if capture is possible at destination, capture the seeds and
     	//count again
     	if(checkCapture(m,my_pits,op_pits,board_state,playerID)){
@@ -143,11 +143,11 @@ public class MyTools {
     		origin = dest;
     		dest = board_state.getNextPit(temp, Direction.CCW);
     		if(my_pits[dest]==0){
-    			sumSeeds--;
+    			//sumSeeds--;
     		}
     		my_pits[dest]++;
     	}
-    	//sumSeeds += seeds;
+    	sumSeeds += seeds;
     	//first check if capture is possible
     	CCMove move = new CCMove(m);
     	if(checkCapture(move,my_pits,op_pits,board_state,playerID)){
@@ -187,7 +187,7 @@ public class MyTools {
     		h += countSucc(m,my_pits,op_pits,board_state,playerID);
     	}
     	//check for capture by opponent
-    	h += my_pits[15-origin];
+    	//h += my_pits[15-origin];
     	return h;
     }
 }
