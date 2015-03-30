@@ -55,7 +55,7 @@ public class s260461226Player extends Player {
         int[] op_pits = pits[1];
 
         // Use my tool to do precisely nothing
-        MyTools.getSomething();
+        //MyTools.getSomething();
 
         if(!board_state.isInitialized()){
             // Code for setting up our initial position. Also, if your agent needs to be
@@ -84,6 +84,10 @@ public class s260461226Player extends Player {
             return new CCMove(initial_pits);
         }else{
             // Play a normal turn. Choose a random pit to play.
+        	
+        	// make a clone of the board
+        	CCBoardState cloneState = (CCBoardState)board_state.clone();
+        	
             ArrayList<CCMove> moves = board_state.getLegalMoves();
             CCMove bestCapMove = null;
             int captureMax = 0;
@@ -93,9 +97,9 @@ public class s260461226Player extends Player {
             for(CCMove m: moves){
             	//if the move results in a capture, return that move
             	//if a move results in a capture, return the move with max capture
-            	if(MyTools.checkCapture(m, my_pits, op_pits, board_state,this.playerID))
+            	if(MyTools.checkCapture(m, my_pits, op_pits, cloneState,this.playerID))
             	{ 
-            		temp = MyTools.calcCapture(m, my_pits, op_pits, board_state, this.playerID);
+            		temp = MyTools.calcCapture(m, my_pits, op_pits, cloneState, this.playerID);
             		if(temp>captureMax){
             			bestCapMove = m;
             			captureMax = temp;
@@ -105,8 +109,8 @@ public class s260461226Player extends Player {
             	//return the move with max consecutive sowings possible
             	else{
             	//check if multiple sowings are possible
-            		if(MyTools.checkSucc(m, my_pits, op_pits, board_state, this.playerID)){
-            			temp = MyTools.calcCapture(m, my_pits, op_pits, board_state, this.playerID);
+            		if(MyTools.checkSucc(m, my_pits, op_pits, cloneState, this.playerID)){
+            			temp = MyTools.calcCapture(m, my_pits, op_pits, cloneState, this.playerID);
             			if(temp > max){
             				max = temp;
             				maxMove = m;

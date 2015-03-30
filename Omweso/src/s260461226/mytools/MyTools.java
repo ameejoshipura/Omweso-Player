@@ -17,6 +17,7 @@ public class MyTools {
     	//figure out the last pit
     	int seeds = my_pits[m.getPit()];
     	int origin = m.getPit();
+    	my_pits[origin]=0;
     	int dest=0;
     	int temp=0;
     	for(int i=0; i<seeds; i++){
@@ -27,6 +28,11 @@ public class MyTools {
     	//if the last pit is in the closer row, then capture cannot take place
     	//return false
     	if(dest<board_state.SIZE || dest>=2*board_state.SIZE){
+    		return false;
+    	}
+    	
+    	//if pit was empty, capture not allowed
+    	if(my_pits[dest]<=1){
     		return false;
     	}
     	/*
@@ -53,6 +59,7 @@ public class MyTools {
     	//figure out the last pit
     	int seeds = my_pits[m.getPit()];
     	int origin = m.getPit();
+    	my_pits[origin]=0;
     	int dest=0;
     	int temp=0;
     	for(int i=0; i<seeds; i++){
@@ -72,14 +79,18 @@ public class MyTools {
     	int seeds = my_pits[m.getPit()];
     	int dest=0;
     	int temp=0;
+    	my_pits[origin]=0;
     	for(int i=0; i<seeds; i++){
     		temp = origin;
     		origin = dest;
     		dest = board_state.getNextPit(temp, Direction.CCW);
+    		my_pits[dest]++;
     	}
+    	//if pit previously not empty, further sowing is allowed
     	if(my_pits[dest]>1){
     		return true;
     	}
+    	//if pit was empty, turn ends, and no further sowing
     	return false;
     }
     
@@ -90,6 +101,7 @@ public class MyTools {
     	int sumSeeds = 0;
     	//int maxMoves = 0;
     	int origin = m.getPit();
+    	my_pits[origin]=0;
     	int dest = 0;
     	int temp = 0;
     	int seeds = my_pits[m.getPit()];
@@ -97,9 +109,16 @@ public class MyTools {
     		temp = origin;
     		origin = dest;
     		dest = board_state.getNextPit(temp, Direction.CCW);
+    		my_pits[dest]++;
     	}
     	sumSeeds = seeds;
-    	if(my_pits[dest]>1){
+    	//if capture is possible at destination, capture the seeds and
+    	//count again
+    	if(checkCapture(m,my_pits,op_pits,board_state,playerID)){
+    		my_pits[m.getPit()]= calcCapture(m,my_pits,op_pits,board_state,playerID);
+    		sumSeeds += countHelp(m.getPit(), my_pits, op_pits, board_state, playerID);    		
+    	}
+    	else if(my_pits[dest]>1){
     		sumSeeds += countHelp(dest, my_pits, op_pits, board_state, playerID);
     	}
     	return sumSeeds;
@@ -112,6 +131,7 @@ public class MyTools {
     	int sumSeeds = 0;
     	//int maxMoves = 0;
     	int origin = m;
+    	my_pits[origin]=0;
     	int dest = 0;
     	int temp = 0;
     	int seeds = my_pits[m];
@@ -119,16 +139,25 @@ public class MyTools {
     		temp = origin;
     		origin = dest;
     		dest = board_state.getNextPit(temp, Direction.CCW);
+    		my_pits[dest]++;
     	}
+    	sumSeeds = seeds;
     	//first check if capture is possible
     	CCMove move = new CCMove(m);
     	if(checkCapture(move,my_pits,op_pits,board_state,playerID)){
-    		sumSeeds = calcCapture(move,my_pits,op_pits,board_state,playerID);
+    		my_pits[origin] = calcCapture(move,my_pits,op_pits,board_state,playerID);
+    		sumSeeds += countHelp(origin,my_pits,op_pits,board_state,playerID);
     	}
-    	sumSeeds = seeds;
-    	if(my_pits[dest]>1){
+    	else if(my_pits[dest]>1){
     		sumSeeds += countHelp(dest, my_pits, op_pits, board_state, playerID);
     	}
     	return sumSeeds;
     }
+    
+    /*
+     * heuristic search
+     * +for #captures
+     * -for #pits with seeds=1
+     * +for #pits with seeds>1
+     */
 }

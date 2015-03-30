@@ -32,3 +32,5 @@
 35,random,260461226,1,260461226,13,game00035.log,
 36,Human,Human,0,Human,25,game00036.log,
 37,260461226,random,1,random,23,game00037.log,
+38,260461226,random,1,random,6,game00038.log,
+39,random,260461226,0,random,33,game00039.log,
